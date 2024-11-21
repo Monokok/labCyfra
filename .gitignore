@@ -2,5 +2,20 @@
 # Данный GITIGNORE-файл был автоматически создан Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs
-/obj/Debug/net6.0
+# .NET build folders
+/bin/
+/obj/
+
+/.vs/
+
+# User-specific files
+.vscode/
+
+# ASP.NET Scaffolding
+Scaffolding/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
