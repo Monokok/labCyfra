@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Victor\\Desktop\\4-41\\Методы принятия решений\\Цифра\\Lab\\Lab.csproj": {}
+    "C:\\Users\\Victor\\source\\repos\\labCyfra\\WebApplicationZyfra.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Victor\\Desktop\\4-41\\Методы принятия решений\\Цифра\\Lab\\Lab.csproj": {
+    "C:\\Users\\Victor\\source\\repos\\labCyfra\\WebApplicationZyfra.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Victor\\Desktop\\4-41\\Методы принятия решений\\Цифра\\Lab\\Lab.csproj",
-        "projectName": "Lab",
-        "projectPath": "C:\\Users\\Victor\\Desktop\\4-41\\Методы принятия решений\\Цифра\\Lab\\Lab.csproj",
+        "projectUniqueName": "C:\\Users\\Victor\\source\\repos\\labCyfra\\WebApplicationZyfra.csproj",
+        "projectName": "WebApplicationZyfra",
+        "projectPath": "C:\\Users\\Victor\\source\\repos\\labCyfra\\WebApplicationZyfra.csproj",
         "packagesPath": "C:\\Users\\Victor\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Victor\\Desktop\\4-41\\Методы принятия решений\\Цифра\\Lab\\obj\\",
+        "outputPath": "C:\\Users\\Victor\\source\\repos\\labCyfra\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Victor\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,12 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.5.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -69,6 +75,9 @@
             }
           ],
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
