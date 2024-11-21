@@ -35,7 +35,7 @@ namespace WebApplicationZyfra.Controllers
             if (Users.TryGetValue(request.Login, out var password) && password == request.Password)
             {
                 var sessionId = Guid.NewGuid().ToString();
-                Sessions.TryAdd(sessionId, request.Login); // Добавляем новую сессию
+                Sessions.TryAdd(sessionId, request.Login);
                 return Ok(new { SessionId = sessionId });
             }
             return Unauthorized("Invalid login or password.");
