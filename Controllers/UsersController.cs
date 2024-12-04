@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Concurrent;
+
 using WebApplicationZyfra.BLL;
 using WebApplicationZyfra.BLL.Services;
 using WebApplicationZyfra.Controllers.models;
@@ -33,7 +34,7 @@ namespace WebApplicationZyfra.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginRequest request)
         {
-            // Аутентификация пользователя
+            // ГЂГіГІГҐГ­ГІГЁГґГЁГЄГ Г¶ГЁГї ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гї
             var user = await _userService.AuthenticateUserAsync(request.Login, request.Password);
 
             if (user == null)
@@ -41,7 +42,7 @@ namespace WebApplicationZyfra.Controllers
                 return Unauthorized("Invalid username or password");
             }
 
-            // Проверка на уже существующую активную сессию
+            // ГЏГ°Г®ГўГҐГ°ГЄГ  Г­Г  ГіГ¦ГҐ Г±ГіГ№ГҐГ±ГІГўГіГѕГ№ГіГѕ Г ГЄГІГЁГўГ­ГіГѕ Г±ГҐГ±Г±ГЁГѕ
             var existingSession = await _userSessionService.GetSessionByIdAsync(user.UserId);
             if (existingSession != null)
             {
@@ -52,7 +53,7 @@ namespace WebApplicationZyfra.Controllers
                 });
             }
 
-            // Создание новой сессии
+            // Г‘Г®Г§Г¤Г Г­ГЁГҐ Г­Г®ГўГ®Г© Г±ГҐГ±Г±ГЁГЁ
             var newSession = await _userSessionService.CreateSessionAsync(user.UserId);
 
             return Ok(new
@@ -66,53 +67,53 @@ namespace WebApplicationZyfra.Controllers
         [HttpGet("session/{id}")]
         public async Task<IActionResult> CheckSessionAsync(string id)
         {
-            // Проверяем, является ли `id` корректным GUID
+            // ГЏГ°Г®ГўГҐГ°ГїГҐГ¬, ГїГўГ«ГїГҐГІГ±Гї Г«ГЁ `id` ГЄГ®Г°Г°ГҐГЄГІГ­Г»Г¬ GUID
             if (!Guid.TryParse(id, out var sessionId))
             {
                 return BadRequest("Invalid session ID format.");
             }
 
-            // Ищем сессию в базе данных
+            // Г€Г№ГҐГ¬ Г±ГҐГ±Г±ГЁГѕ Гў ГЎГ Г§ГҐ Г¤Г Г­Г­Г»Гµ
             var session = await _userSessionService.GetSessionByIdAsync(sessionId);
 
             if (session != null && session.ExpiresAt > DateTime.UtcNow)
             {
-                return Ok("Вы уже вошли в систему.");
+                return Ok("Г‚Г» ГіГ¦ГҐ ГўГ®ГёГ«ГЁ Гў Г±ГЁГ±ГІГҐГ¬Гі.");
             }
 
-            return Unauthorized("Сессия не найдена или истекла.");
+            return Unauthorized("Г‘ГҐГ±Г±ГЁГї Г­ГҐ Г­Г Г©Г¤ГҐГ­Г  ГЁГ«ГЁ ГЁГ±ГІГҐГЄГ«Г .");
         }
 
         [HttpDelete("session/{id}")]
         public async Task<IActionResult> DeleteSessionAsync(string id)
         {
-            // Проверяем корректность формата ID
+            // ГЏГ°Г®ГўГҐГ°ГїГҐГ¬ ГЄГ®Г°Г°ГҐГЄГІГ­Г®Г±ГІГј ГґГ®Г°Г¬Г ГІГ  ID
             if (!Guid.TryParse(id, out var sessionId))
             {
                 return BadRequest("Invalid session ID format.");
             }
 
-            // Удаляем сессию из базы данных
+            // Г“Г¤Г Г«ГїГҐГ¬ Г±ГҐГ±Г±ГЁГѕ ГЁГ§ ГЎГ Г§Г» Г¤Г Г­Г­Г»Гµ
             var deleted = await _userSessionService.DeleteSessionAsync(sessionId);
 
             if (deleted)
             {
-                return Ok("Сессия удалена.");
+                return Ok("Г‘ГҐГ±Г±ГЁГї ГіГ¤Г Г«ГҐГ­Г .");
             }
 
-            return NotFound("Сессия не найдена.");
+            return NotFound("Г‘ГҐГ±Г±ГЁГї Г­ГҐ Г­Г Г©Г¤ГҐГ­Г .");
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync([FromBody] RegisterRequest request)
         {
-            // Проверка на корректность входных данных
+            // ГЏГ°Г®ГўГҐГ°ГЄГ  Г­Г  ГЄГ®Г°Г°ГҐГЄГІГ­Г®Г±ГІГј ГўГµГ®Г¤Г­Г»Гµ Г¤Г Г­Г­Г»Гµ
             if (string.IsNullOrWhiteSpace(request.Login) || string.IsNullOrWhiteSpace(request.Password))
             {
                 return BadRequest("Login and password are required.");
             }
 
-            // Проверяем, существует ли пользователь с таким логином
+            // ГЏГ°Г®ГўГҐГ°ГїГҐГ¬, Г±ГіГ№ГҐГ±ГІГўГіГҐГІ Г«ГЁ ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гј Г± ГІГ ГЄГЁГ¬ Г«Г®ГЈГЁГ­Г®Г¬
             var existingUser = await _userService.GetUserByLoginAsync(request.Login);
             if (existingUser != null)
             {
@@ -122,7 +123,7 @@ namespace WebApplicationZyfra.Controllers
             User newUser = new User
             {
                 Login = request.Login,
-                Password = request.Password, // Хэшируется в _userService.RegisterUserAsync
+                Password = request.Password, // Г•ГЅГёГЁГ°ГіГҐГІГ±Гї Гў _userService.RegisterUserAsync
             };
             try
             {
@@ -137,7 +138,7 @@ namespace WebApplicationZyfra.Controllers
 
         }
 
-        // Метод для получения пользователя по ID
+        // ГЊГҐГІГ®Г¤ Г¤Г«Гї ГЇГ®Г«ГіГ·ГҐГ­ГЁГї ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гї ГЇГ® ID
         [HttpGet("user/{id}")]
         public async Task<IActionResult> GetUserById(Guid id)
         {
@@ -151,26 +152,27 @@ namespace WebApplicationZyfra.Controllers
 
         [HttpDelete("admin/session/{id}")]
         public async Task<IActionResult> AdminDeleteSessionAsync(string id, [FromBody] AdminLoginRequest adminRequest)
+
         {
             if (adminRequest.Login != AdminLogin || adminRequest.Password != AdminPassword)
             {
-                return Unauthorized("Неверные логин или пароль администратора.");
+                return Unauthorized("ГЌГҐГўГҐГ°Г­Г»ГҐ Г«Г®ГЈГЁГ­ ГЁГ«ГЁ ГЇГ Г°Г®Г«Гј Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г ГІГ®Г°Г .");
             }
-            // Проверка формата ID
+            // ГЏГ°Г®ГўГҐГ°ГЄГ  ГґГ®Г°Г¬Г ГІГ  ID
             if (!Guid.TryParse(id, out var sessionId))
             {
                 return BadRequest("Invalid session ID format.");
             }
 
-            // Удаление сессии
+            // Г“Г¤Г Г«ГҐГ­ГЁГҐ Г±ГҐГ±Г±ГЁГЁ
             var deleted = await _userSessionService.DeleteSessionAsync(sessionId);
 
             if (deleted)
             {
-                return Ok($"Сессия с ID {id} удалена администратором.");
+                return Ok($"Г‘ГҐГ±Г±ГЁГї Г± ID {id} ГіГ¤Г Г«ГҐГ­Г  Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г ГІГ®Г°Г®Г¬.");
             }
 
-            return NotFound("Сессия не найдена.");
+            return NotFound("Г‘ГҐГ±Г±ГЁГї Г­ГҐ Г­Г Г©Г¤ГҐГ­Г .");
         }
     }
 }
